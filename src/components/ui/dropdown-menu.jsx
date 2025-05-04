@@ -1,48 +1,37 @@
-import React from "react"
 import { cn } from "../../lib/utils"
 
-const DropdownMenu = ({ children }) => {
+export function DropdownMenu({ children }) {
   return <div>{children}</div>
 }
 
-const DropdownMenuTrigger = React.forwardRef(({ className, asChild = false, ...props }, ref) => {
-  const Comp = asChild ? React.Fragment : "button"
-  return <Comp ref={ref} className={cn("flex cursor-pointer items-center", className)} {...props} />
-})
-DropdownMenuTrigger.displayName = "DropdownMenuTrigger"
+export function DropdownMenuTrigger({ children, ...props }) {
+  return <div {...props}>{children}</div>
+}
 
-const DropdownMenuContent = React.forwardRef(({ className, ...props }, ref) => {
+export function DropdownMenuContent({ className, children, ...props }) {
   return (
     <div
-      ref={ref}
       className={cn(
-        "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-80 data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1",
+        "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
         className,
       )}
       {...props}
-    />
+    >
+      {children}
+    </div>
   )
-})
-DropdownMenuContent.displayName = "DropdownMenuContent"
+}
 
-const DropdownMenuItem = React.forwardRef(({ className, inset, ...props }, ref) => {
+export function DropdownMenuItem({ className, children, ...props }) {
   return (
     <div
-      ref={ref}
       className={cn(
         "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-        inset && "pl-8",
         className,
       )}
       {...props}
-    />
+    >
+      {children}
+    </div>
   )
-})
-DropdownMenuItem.displayName = "DropdownMenuItem"
-
-const DropdownMenuSeparator = React.forwardRef(({ className, ...props }, ref) => {
-  return <div ref={ref} className={cn("-mx-1 my-1 h-px bg-muted", className)} {...props} />
-})
-DropdownMenuSeparator.displayName = "DropdownMenuSeparator"
-
-export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator }
+}

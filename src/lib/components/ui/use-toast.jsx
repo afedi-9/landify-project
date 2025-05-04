@@ -1,7 +1,6 @@
-// Simplified toast implementation for src/lib/components/ui/use-toast.ts
-const toast = ({ title, description, variant = "default", duration = 5000 }) => {
-  console.log(`Toast: ${title} - ${description}`)
-  // In a real implementation, this would show a toast notification
+export const toast = {
+  success: (message) => console.log("Success:", message),
+  error: (message) => console.log("Error:", message),
+  info: (message) => console.log("Info:", message),
+  warning: (message) => console.log("Warning:", message),
 }
-
-export { toast }

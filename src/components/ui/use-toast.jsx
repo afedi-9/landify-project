@@ -2,7 +2,7 @@
 
 import { ToastProps } from "@/components/ui/toast"
 
-import type React from "react"
+import React from "react"
 
 // This is a simplified version of the toast component for React
 import { createContext, useContext, useState } from "react"
@@ -38,3 +38,10 @@ export function useToast() {
   }
   return context
 }
+
+export const toast = {
+  success: (message: string) => console.log("Success:", message),
+  error: (message: string) => console.log("Error:", message),
+  info: (message: string) => console.log("Info:", message),
+  warning: (message: string) => console.log("Warning:", message),
+};

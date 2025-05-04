@@ -1,48 +1,15 @@
-"use client"
-
-import React from "react"
 import { cn } from "../../lib/utils"
 
-const Switch = React.forwardRef(({ className, checked, ...props }, ref) => {
-  const [isChecked, setIsChecked] = React.useState(checked || false)
-
-  React.useEffect(() => {
-    if (checked !== undefined) {
-      setIsChecked(checked)
-    }
-  }, [checked])
-
-  const handleChange = (event) => {
-    const newChecked = event.target.checked
-    setIsChecked(newChecked)
-    if (props.onChange) {
-      props.onChange(event)
-    }
-  }
-
+export function Switch({ className, ...props }) {
   return (
-    <button
-      ref={ref}
-      role="switch"
-      aria-checked={isChecked}
-      data-state={isChecked ? "checked" : "unchecked"}
+    <div
       className={cn(
-        "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
-        isChecked ? "bg-primary" : "bg-input",
+        "relative inline-flex h-[24px] w-[44px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
         className,
       )}
-      onClick={() => setIsChecked(!isChecked)}
-      {...props}
     >
-      <span
-        className={cn(
-          "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform",
-          isChecked ? "translate-x-5" : "translate-x-0",
-        )}
-      />
-    </button>
+      <input type="checkbox" className="absolute h-full w-full cursor-pointer opacity-0" {...props} />
+      <span className="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0" />
+    </div>
   )
-})
-Switch.displayName = "Switch"
-
-export { Switch }
+}

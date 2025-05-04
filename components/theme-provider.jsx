@@ -2,37 +2,23 @@
 
 import { createContext, useContext, useEffect, useState } from "react"
 
-const ThemeProviderContext = createContext(undefined)
+const ThemeProviderContext = createContext()
 
-export function ThemeProvider({
-  children,
-  defaultTheme = "system",
-  storageKey = "ui-theme",
-  attribute = "data-theme",
-  ...props
-}) {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem(storageKey) || defaultTheme
-    }
-    return defaultTheme
-  })
+export function ThemeProvider({ children, defaultTheme = "system", storageKey = "theme", ...props }) {
+  const [theme, setTheme] = useState(defaultTheme)
 
   useEffect(() => {
     const root = window.document.documentElement
-
     root.classList.remove("light", "dark")
 
     if (theme === "system") {
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
       root.classList.add(systemTheme)
-      root.setAttribute(attribute, systemTheme)
       return
     }
 
     root.classList.add(theme)
-    root.setAttribute(attribute, theme)
-  }, [theme, attribute])
+  }, [theme])
 
   const value = {
     theme,
@@ -52,9 +38,7 @@ export function ThemeProvider({
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
 
-  if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider")
-  }
+  if (context === undefined) throw new Error("useTheme must be used within a ThemeProvider")
 
   return context
 }
