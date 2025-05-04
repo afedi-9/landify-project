@@ -1,8 +1,12 @@
-import React from "react"
+import * as React from "react"
 import { cn } from "@/lib/utils"
 
 const Select = React.forwardRef(({ children, ...props }, ref) => {
-  return <div ref={ref}>{children}</div>
+  return (
+    <div ref={ref} {...props}>
+      {children}
+    </div>
+  )
 })
 Select.displayName = "Select"
 
@@ -25,7 +29,7 @@ const SelectValue = React.forwardRef(({ className, ...props }, ref) => (
 ))
 SelectValue.displayName = "SelectValue"
 
-const SelectContent = React.forwardRef(({ className, children, ...props }, ref) => (
+const SelectContent = React.forwardRef(({ className, children, position = "popper", ...props }, ref) => (
   <div
     ref={ref}
     className={cn(
@@ -43,7 +47,7 @@ const SelectItem = React.forwardRef(({ className, children, ...props }, ref) => 
   <div
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className,
     )}
     {...props}

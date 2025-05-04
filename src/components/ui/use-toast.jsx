@@ -1,47 +1,50 @@
 "use client"
 
-import { ToastProps } from "@/components/ui/toast"
+// Simplified toast implementation
+import { useState } from "react"
 
-import React from "react"
+// Simple toast state management
+const useToast = () => {
+  const [toasts, setToasts] = useState([])
 
-// This is a simplified version of the toast component for React
-import { createContext, useContext, useState } from "react"
+  const toast = ({ title, description, variant = "default", duration = 5000 }) => {
+    const id = Math.random().toString(36).substring(2, 9)
+    const newToast = { id, title, description, variant, duration }
 
-type ToastProps = {
-  title?: string
-  description?: string
-  variant?: "default" | "destructive"
-}
+    setToasts((prevToasts) => [...prevToasts, newToast])
 
-type ToastContextType = {
-  toast: (props: ToastProps) => void
-}
+    if (duration !== Number.POSITIVE_INFINITY) {
+      setTimeout(() => {
+        setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id))
+      }, duration)
+    }
 
-const ToastContext = (createContext < ToastContextType) | (undefined > undefined)
-
-export function ToastProvider({ children }: { children: React.ReactNode }) {
-  const [toasts, setToasts] = useState<ToastProps[]>([])
-
-  const toast = (props: ToastProps) => {
-    setToasts((prev) => [...prev, props])
-    // In a real implementation, you would also handle removing toasts after a timeout
-    console.log("Toast:", props.title, props.description)
+    return {
+      id,
+      dismiss: () => setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id)),
+      update: (props) => {
+        setToasts((prevToasts) => prevToasts.map((toast) => (toast.id === id ? { ...toast, ...props } : toast)))
+      },
+    }
   }
 
-  return <ToastContext.Provider value={{ toast }}>{children}</ToastContext.Provider>
-}
-
-export function useToast() {
-  const context = useContext(ToastContext)
-  if (context === undefined) {
-    throw new Error("useToast must be used within a ToastProvider")
+  return {
+    toast,
+    toasts,
+    dismiss: (toastId) => setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== toastId)),
+    dismissAll: () => setToasts([]),
   }
-  return context
 }
 
-export const toast = {
-  success: (message: string) => console.log("Success:", message),
-  error: (message: string) => console.log("Error:", message),
-  info: (message: string) => console.log("Info:", message),
-  warning: (message: string) => console.log("Warning:", message),
-};
+// For direct usage without the hook
+const toast = ({ title, description, variant = "default", duration = 5000 }) => {
+  console.log(`Toast: ${title} - ${description}`)
+  // In a real implementation, this would show a toast notification
+  return {
+    id: Math.random().toString(36).substring(2, 9),
+    dismiss: () => {},
+    update: () => {},
+  }
+}
+
+export { toast, useToast }

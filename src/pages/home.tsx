@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
+import { Link } from "react-router-dom"
+import { Button } from "../components/ui/button"
 import { ArrowRight, Building, Globe, Landmark, Shield } from "lucide-react"
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -18,13 +18,13 @@ export default function Home() {
               of ownership.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link href="/auth/signup">
+              <Link to="/auth/signup">
                 <Button size="lg" className="px-8">
                   Get Started
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/about">
+              <Link to="/about">
                 <Button variant="outline" size="lg">
                   Learn More
                 </Button>
@@ -122,7 +122,7 @@ export default function Home() {
             Join the future of property ownership and management today.
           </p>
           <div className="mt-10">
-            <Link href="/auth/signup">
+            <Link to="/auth/signup">
               <Button size="lg" variant="secondary" className="px-8">
                 Get Started Now
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -141,13 +141,13 @@ export default function Home() {
               <p className="mt-2">Decentralized Property Tokenization System</p>
             </div>
             <div className="flex space-x-6">
-              <Link href="/about" className="hover:text-white transition-colors">
+              <Link to="/about" className="hover:text-white transition-colors">
                 About
               </Link>
-              <Link href="/features" className="hover:text-white transition-colors">
+              <Link to="/features" className="hover:text-white transition-colors">
                 Features
               </Link>
-              <Link href="/contact" className="hover:text-white transition-colors">
+              <Link to="/contact" className="hover:text-white transition-colors">
                 Contact
               </Link>
             </div>
